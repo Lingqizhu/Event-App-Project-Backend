@@ -70,7 +70,7 @@ app.get('/', function (req, res){
 
 
 //search by location
-app.get('/:location', async(req, res)=>{
+app.get('/location/:location', async(req, res)=>{
     res.send(await Event.find({location: req.params.location}))
 })
 
