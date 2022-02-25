@@ -45,9 +45,6 @@ app.post("/auth", async (req, res) => {
   if (!user) {
     return res.sendStatus(401);
   }
-  /* if (req.body.password !== user.password) {
-    return res.sendStatus(403);
-  } */
   const isPasswordValid = await bcrypt.compare(
     req.body.password,
     user.password
@@ -72,14 +69,6 @@ app.use(async (req, res, next) => {
   }
 });
 
-// defining CRUD operations
-/* app.get('/', async (req, res) => {
-  res.send(await Event.find());
-}); */
-
-// exports.index = function (req, res) {
-//     Book.find().then((books) => res.send(books));
-//   };
 app.get('/userlist',function(req,res){
   User.find().then((users) => res.send(users))
 });
@@ -92,10 +81,7 @@ app.get("/", function (req, res) {
 app.get("/location/:location", async (req, res) => {
   res.send(await Event.find({ location: req.params.location }));
 });
-/* app.get('/location/:location', async(req, res)=>{
-  await Event.find({location: req.params.location})
-  res.send({ message: 'location found.' })
-}) */
+
 app.get("/name/:name", async (req, res) => {
   res.send(await Event.find({ name: req.params.name }));
 });
@@ -109,24 +95,24 @@ app.post("/", async (req, res) => {
 });
 
 // delete event
-app.delete("/:id", async (req, res) => {
+app.delete("/delete/:id", async (req, res) => {
   await Event.deleteOne({ _id: ObjectId(req.params.id) });
   res.send({ message: "Event removed." });
 });
 
 // update event
-app.put("/:id", async (req, res) => {
+app.put("/update/:id", async (req, res) => {
   await Event.findOneAndUpdate({ _id: ObjectId(req.params.id) }, req.body);
   res.send({ message: "Event updated." });
 });
 
 // starting the server
-app.listen(3001, () => {
-  console.log("listening on port 3001");
+app.listen(3000, () => {
+  console.log("listening on port 3000");
 });
 
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function callback() {
   console.log("Database connected!");
-});
+})
